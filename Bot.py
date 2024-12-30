@@ -1,9 +1,7 @@
-from telegram import Update, ReplyKeyboardMarkup
+from telegram import Update
 from telegram.ext import (
     Application,
     CommandHandler,
-    MessageHandler,
-    filters,
     ContextTypes,
 )
 from apscheduler.schedulers.background import BackgroundScheduler
@@ -99,13 +97,9 @@ def schedule_reminder(chat_id, task, task_time):
     )
 
 
-def send_reminder(chat_id, task):
-    import asyncio
-
-    async def notify():
-        await application.bot.send_message(chat_id, text=f"Reminder: '{task}' is due!")
-
-    asyncio.run(notify())
+async def send_reminder(chat_id, task):
+    """Send a reminder to the user."""
+    await application.bot.send_message(chat_id=chat_id, text=f"Reminder: '{task}' is due!")
 
 
 async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
